@@ -18,7 +18,9 @@ public class InputWindow extends JFrame {
 
     private final JButton btnSave;
     private final JButton btnBack;
+    private final int i = 0;
     private boolean isValid = true;
+    private int oldCarID;
 
     public InputWindow() {
         setTitle("Add New Car");
@@ -81,22 +83,23 @@ public class InputWindow extends JFrame {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                saveMovie();
+                saveCar();
+                ProjectDB.loadCars();
             }
         });
 
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                FirstWindow dsh = new FirstWindow();
-                dsh.setVisible(true);
+                FirstWindow dash = new FirstWindow();
+                dash.setVisible(true);
                 dispose();
             }
         });
     }
 
     //Constructor Chaining
-    public InputWindow(String carID, String model, String brand, String capacity, String topKPH, String transmission) {
+    public InputWindow(int carID, String model, String brand, String capacity, String topKPH, String transmission) {
         setTitle("Edit Car");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 500);
@@ -105,9 +108,11 @@ public class InputWindow extends JFrame {
         JPanel mainPanel = new JPanel(new GridLayout(7, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        oldCarID = carID;
 
         mainPanel.add(new JLabel("Car ID: "));
-        txtCarID = new JTextField(carID);
+        txtCarID = new JTextField(String.valueOf(carID));
+        txtCarID.setEditable(false); // ✅ Make it read-only
         mainPanel.add(txtCarID);
 
         mainPanel.add(new JLabel("Model: "));
@@ -126,13 +131,13 @@ public class InputWindow extends JFrame {
         txtTopKPH = new JTextField(topKPH);
         mainPanel.add(txtTopKPH);
 
-        //Radio options for Automatic or Manual
+        // Radio options
         option1 = new JRadioButton("Automatic");
         option2 = new JRadioButton("Manual");
 
-        if (transmission.contentEquals("Automatic")) {
+        if (transmission.equals("Automatic")) {
             option1.setSelected(true);
-        } else if (transmission.contentEquals("Manual")) {
+        } else if (transmission.equals("Manual")) {
             option2.setSelected(true);
         }
 
@@ -147,10 +152,8 @@ public class InputWindow extends JFrame {
         mainPanel.add(new JLabel("Transmission:"));
         mainPanel.add(radioPanel);
 
-        //end of Radio options
-
         btnSave = new JButton("Save Edited Car");
-        btnBack = new JButton("Back to Dashboard");
+        btnBack = new JButton("Back to Edit Window");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(btnSave);
@@ -164,28 +167,95 @@ public class InputWindow extends JFrame {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                saveMovie();
+                saveEdit();
+                ProjectDB.loadCars();
             }
         });
 
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                FirstWindow dsh = new FirstWindow();
-                dsh.setVisible(true);
+                EditCars dash = new EditCars();
+                dash.setVisible(true);
                 dispose();
             }
         });
     }
 
-    private void saveMovie() {
+    private void saveEdit() {
         try {
+            isValid = true;
+            int newCarID = Integer.parseInt(txtCarID.getText());
+            String newModel = txtModel.getText();
+            String newBrand = txtBrand.getText();
+            int newCapacity = Integer.parseInt(txtCapacity.getText());
+            int newTopKPH = Integer.parseInt(txtTopKPH.getText());
+            String newTransmission = getSelectedTransmission();
+
+
+            // checks if model and brand is filled in
+            if (newModel.isEmpty() || newBrand.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please fill all fields", "ERROR", JOptionPane.ERROR_MESSAGE);
+                isValid = false;
+            }
+
+            //checks if the capacity is valid
+            if (newCapacity < 0 || newCapacity > 300) {
+                JOptionPane.showMessageDialog(this, "Enter valid capacity \n 0-300", "ERROR", JOptionPane.ERROR_MESSAGE);
+                isValid = false;
+            }
+
+            //checks if user selected a transmission type
+            if (!option1.isSelected() && !option2.isSelected()) {
+                isValid = false;
+            }
+
+            // Find the index of the car being edited
+            int editIndex = -1;
+            for (int i = 0; i < ProjectDB.carList.size(); i++) {
+                if (ProjectDB.carList.get(i).getCarID() == oldCarID) {
+                    editIndex = i;
+                    break;
+                }
+            }
+
+            // Check for duplicate ID only if ID changed
+            if (newCarID != oldCarID) {
+                for (Car car : ProjectDB.carList) {
+                    if (car.getCarID() == newCarID) {
+                        JOptionPane.showMessageDialog(this, "Car ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        isValid = false;
+                        break;
+                    }
+                }
+            }
+            if (isValid && editIndex != -1) {
+                ProjectDB.carList.remove(editIndex);
+                Car newCar = new Car(newCarID, newModel, newBrand, newCapacity, newTopKPH, newTransmission);
+                ProjectDB.carList.add(editIndex, newCar);
+
+                JOptionPane.showMessageDialog(this, "Car edited successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                // Clear all fields including brand checkboxes
+                clearForm();
+
+                System.out.println("Total cars: " + ProjectDB.carList.size());
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid Integers for ID, Capacity and Top KPH", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void saveCar() {
+        try {
+            isValid = true;
             int carID = Integer.parseInt(txtCarID.getText());
             String model = txtModel.getText();
             String brand = txtBrand.getText();
             int capacity = Integer.parseInt(txtCapacity.getText());
             int topKPH = Integer.parseInt(txtTopKPH.getText());
-            String transmission = transmissionButtonGroup.toString();
+            String transmission = getSelectedTransmission();
 
 
             // checks if model and brand is filled in
@@ -197,6 +267,12 @@ public class InputWindow extends JFrame {
             //checks if the capacity is valid
             if (capacity < 0 || capacity > 300) {
                 JOptionPane.showMessageDialog(this, "Enter valid capacity \n 0-300", "ERROR", JOptionPane.ERROR_MESSAGE);
+                isValid = false;
+            }
+
+            //checks if user selected a transmission type
+            if (!option1.isSelected() && !option2.isSelected()) {
+                JOptionPane.showMessageDialog(this, "Select a Transmission type!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
@@ -225,13 +301,22 @@ public class InputWindow extends JFrame {
         }
     }
 
+    private String getSelectedTransmission() {
+        if (option1.isSelected()) {
+            return "Automatic";
+        } else {
+            return "Manual";
+        }
+    }
+
     private void clearForm() {
         txtCarID.setText("");
         txtModel.setText("");
         txtBrand.setText("");
         txtCapacity.setText("");
         txtTopKPH.setText("");
-
+        option1.setSelected(false);
+        option2.setSelected(false);
         System.out.println("Form cleared");
     }
 }

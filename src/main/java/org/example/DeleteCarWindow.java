@@ -67,7 +67,8 @@ public class DeleteCarWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int carID = Integer.parseInt(txtCarID.getText());
                 deleteCar(carID);
-                ProjectDB.loadCars();
+                ProjectDB.loadCars();          // refresh the model
+                ProjectDB.getTable().repaint();
             }
         });
         buttonBack.addActionListener(new ActionListener() {

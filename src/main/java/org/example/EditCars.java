@@ -24,7 +24,7 @@ public class EditCars extends JFrame {
     }
 
     private void initComponents() {
-        setTitle("Movies DashBoard");
+        setTitle("Cars Editing DashBoard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 500);
         setLocationRelativeTo(null);
@@ -111,12 +111,13 @@ public class EditCars extends JFrame {
     public void editCar(int carID) {
         for (int i = 0; i < ProjectDB.carList.size(); i++) {
             if (ProjectDB.carList.get(i).getCarID() == carID) {
-                String CARID = String.valueOf(ProjectDB.carList.get(i).getCarID());
+                int CARID = ProjectDB.carList.get(i).getCarID();
                 String MODEL = ProjectDB.carList.get(i).getModel();
                 String BRAND = ProjectDB.carList.get(i).getBrand();
                 String CAPACITY = String.valueOf(ProjectDB.carList.get(i).getCapacity());
                 String TOPKPH = String.valueOf(ProjectDB.carList.get(i).getTopKPH());
                 String TRANSMISSION = ProjectDB.carList.get(i).getTransmission();
+                dispose();
                 InputWindow newWindow = new InputWindow(CARID, MODEL, BRAND, CAPACITY, TOPKPH, TRANSMISSION);
                 newWindow.setVisible(true);
                 break;
