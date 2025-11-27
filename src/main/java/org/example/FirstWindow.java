@@ -73,7 +73,7 @@ public class FirstWindow extends JFrame {
         buttonEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InputWindow newWindow = new InputWindow();
+                EditCars newWindow = new EditCars();
                 newWindow.setVisible(true);
                 dispose();
             }

@@ -66,7 +66,7 @@ public class DeleteCarWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int carID = Integer.parseInt(txtCarID.getText());
-                deleteMovie(carID);
+                deleteCar(carID);
                 ProjectDB.loadCars();
             }
         });
@@ -108,7 +108,7 @@ public class DeleteCarWindow extends JFrame {
         });
     }
 
-    public void deleteMovie(int carID) {
+    public void deleteCar(int carID) {
         for (int i = 0; i < ProjectDB.carList.size(); i++) {
             if (ProjectDB.carList.get(i).getCarID() == carID) {
                 ProjectDB.carList.remove(i);

@@ -6,24 +6,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InputWindow extends JFrame {
-    private JTextField txtCarID;
-    private JTextField txtModel;
-    private JTextField txtBrand;
-    private JTextField txtCapacity;
-    private JTextField txtTopKPH;
-    private JRadioButton option1, option2;
-    private ButtonGroup isAutomaticGroup;
+    private final JTextField txtCarID;
+    private final JTextField txtModel;
+    private final JTextField txtBrand;
+    private final JTextField txtCapacity;
+    private final JTextField txtTopKPH;
+    private final JRadioButton option1;
+    private final JRadioButton option2;
+    private final ButtonGroup transmissionButtonGroup;
 
 
-    private JButton btnSave;
-    private JButton btnBack;
+    private final JButton btnSave;
+    private final JButton btnBack;
     private boolean isValid = true;
 
     public InputWindow() {
-        initComponents();
-    }
-
-    private void initComponents() {
         setTitle("Add New Car");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 500);
@@ -56,9 +53,9 @@ public class InputWindow extends JFrame {
         //Radio options for Automatic or Manual
         option1 = new JRadioButton("Automatic");
         option2 = new JRadioButton("Manual");
-        isAutomaticGroup = new ButtonGroup();
-        isAutomaticGroup.add(option1);
-        isAutomaticGroup.add(option2);
+        transmissionButtonGroup = new ButtonGroup();
+        transmissionButtonGroup.add(option1);
+        transmissionButtonGroup.add(option2);
 
         JPanel radioPanel = new JPanel(new FlowLayout());
         radioPanel.add(option1);
@@ -98,6 +95,89 @@ public class InputWindow extends JFrame {
         });
     }
 
+    //Constructor Chaining
+    public InputWindow(String carID, String model, String brand, String capacity, String topKPH, String transmission) {
+        setTitle("Edit Car");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 500);
+        setLocationRelativeTo(null);
+
+        JPanel mainPanel = new JPanel(new GridLayout(7, 1, 10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
+        mainPanel.add(new JLabel("Car ID: "));
+        txtCarID = new JTextField(carID);
+        mainPanel.add(txtCarID);
+
+        mainPanel.add(new JLabel("Model: "));
+        txtModel = new JTextField(model);
+        mainPanel.add(txtModel);
+
+        mainPanel.add(new JLabel("Brand: "));
+        txtBrand = new JTextField(brand);
+        mainPanel.add(txtBrand);
+
+        mainPanel.add(new JLabel("Capacity: "));
+        txtCapacity = new JTextField(capacity);
+        mainPanel.add(txtCapacity);
+
+        mainPanel.add(new JLabel("TopKPH: "));
+        txtTopKPH = new JTextField(topKPH);
+        mainPanel.add(txtTopKPH);
+
+        //Radio options for Automatic or Manual
+        option1 = new JRadioButton("Automatic");
+        option2 = new JRadioButton("Manual");
+
+        if(transmission.contentEquals("Automatic")){
+            option1.setSelected(true);
+        }else if(transmission.contentEquals("Manual")){
+            option2.setSelected(true);
+        }
+
+        transmissionButtonGroup = new ButtonGroup();
+        transmissionButtonGroup.add(option1);
+        transmissionButtonGroup.add(option2);
+
+        JPanel radioPanel = new JPanel(new FlowLayout());
+        radioPanel.add(option1);
+        radioPanel.add(option2);
+
+        mainPanel.add(new JLabel("Transmission:"));
+        mainPanel.add(radioPanel);
+
+        //end of Radio options
+
+        btnSave = new JButton("Save Edited Car");
+        btnBack = new JButton("Back to Dashboard");
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(btnSave);
+        buttonPanel.add(btnBack);
+
+        add(mainPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        pack();
+
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                saveMovie();
+            }
+        });
+
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                FirstWindow dsh = new FirstWindow();
+                dsh.setVisible(true);
+                dispose();
+            }
+        });
+    }
+
     private void saveMovie() {
         try {
             int carID = Integer.parseInt(txtCarID.getText());
@@ -105,11 +185,8 @@ public class InputWindow extends JFrame {
             String brand = txtBrand.getText();
             int capacity = Integer.parseInt(txtCapacity.getText());
             int topKPH = Integer.parseInt(txtTopKPH.getText());
-            String trueOrFalse;
-            boolean isAutomatic;
+            String transmission = transmissionButtonGroup.toString();
 
-            //changing isAutomaticGroup String to true or false, true for automatic and false for manual
-            isAutomatic = isAutomaticGroup.toString().contains("Automatic");
 
             // checks if model and brand is filled in
             if (model.isEmpty() || brand.isEmpty()) {
@@ -132,7 +209,7 @@ public class InputWindow extends JFrame {
             }
             if (isValid) {
 
-                Car newCar = new Car(carID, model, brand, capacity, topKPH, isAutomatic);
+                Car newCar = new Car(carID, model, brand, capacity, topKPH, transmission);
                 ProjectDB.carList.add(newCar);
 
                 JOptionPane.showMessageDialog(this, "Car added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);

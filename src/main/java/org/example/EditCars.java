@@ -66,7 +66,7 @@ public class EditCars extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int carID = Integer.parseInt(txtCarID.getText());
-                editMovie(carID);
+                editCar(carID);
                 ProjectDB.loadCars();
             }
         });
@@ -108,10 +108,17 @@ public class EditCars extends JFrame {
         });
     }
 
-    public void editMovie(int carID) {
+    public void editCar(int carID) {
         for (int i = 0; i < ProjectDB.carList.size(); i++) {
             if (ProjectDB.carList.get(i).getCarID() == carID) {
-                ProjectDB.carList.remove(i);
+                String CARID = String.valueOf(ProjectDB.carList.get(i).getCarID());
+                String MODEL = ProjectDB.carList.get(i).getModel();
+                String BRAND = ProjectDB.carList.get(i).getBrand();
+                String CAPACITY = String.valueOf(ProjectDB.carList.get(i).getCapacity());
+                String TOPKPH = String.valueOf(ProjectDB.carList.get(i).getTopKPH());
+                String TRANSMISSION = ProjectDB.carList.get(i).getTransmission();
+                InputWindow newWindow = new InputWindow(CARID, MODEL, BRAND, CAPACITY, TOPKPH, TRANSMISSION);
+                newWindow.setVisible(true);
                 break;
             }
         }

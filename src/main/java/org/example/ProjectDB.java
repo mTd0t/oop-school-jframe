@@ -19,10 +19,10 @@ public class ProjectDB {
             for (Car e : ProjectDB.carList) {
                 row[0] = e.getCarID();
                 row[1] = e.getModel();
-                row[2] = e.getFuel();
+                row[2] = e.getBrand();
                 row[3] = e.getCapacity();
                 row[4] = e.getTopKPH();
-                row[5] = e.isAutomatic();
+                row[5] = e.getTransmission();
                 tm.addRow(row);
             }
         }
@@ -51,23 +51,23 @@ public class ProjectDB {
     }
 
     public static void addExistingCars() {
-        Car newCar = new Car(1, "Adventure", "Mitsubishi", 7, 140, false);
+        Car newCar = new Car(1, "Adventure", "Mitsubishi", 7, 140, "Manual");
         ProjectDB.carList.add(newCar);
-        Car newCar2 = new Car(2, "Aventador", "Lamborghini", 2, 350, false);
+        Car newCar2 = new Car(2, "Aventador", "Lamborghini", 2, 350, "Automatic");
         ProjectDB.carList.add(newCar2);
-        Car newCar3 = new Car(3, "Xpander", "Mitsubishi", 7, 170, false);
+        Car newCar3 = new Car(3, "Xpander", "Mitsubishi", 7, 170, "Automatic");
         ProjectDB.carList.add(newCar3);
-        Car newCar4 = new Car(4, "Civic Type R", "Honda", 5, 275, false);
+        Car newCar4 = new Car(4, "Civic Type R", "Honda", 5, 275, "Manual");
         ProjectDB.carList.add(newCar4);
-        Car newCar5 = new Car(5, "Bronco Badlands", "Ford", 5, 180, false);
+        Car newCar5 = new Car(5, "Bronco Badlands", "Ford", 5, 180, "Manual");
         ProjectDB.carList.add(newCar5);
-        Car newCar6 = new Car(6, "WRX GT", "Subaru", 5, 60, false);
+        Car newCar6 = new Car(6, "WRX GT", "Subaru", 5, 60, "Automatic");
         ProjectDB.carList.add(newCar6);
-        Car newCar7 = new Car(7, "ES350", "Lexus", 5, 210, true);
+        Car newCar7 = new Car(7, "ES350", "Lexus", 5, 210, "Automatic");
         ProjectDB.carList.add(newCar7);
-        Car newCar8 = new Car(8, "Telluride SX", "Kia", 8, 190, true);
+        Car newCar8 = new Car(8, "Telluride SX", "Kia", 8, 190, "Automatic");
         ProjectDB.carList.add(newCar8);
-        Car newCar9 = new Car(9, "Corvette Stingray", "Chevrolet", 2, 290, true);
+        Car newCar9 = new Car(9, "Corvette Stingray", "Chevrolet", 2, 290, "Automatic");
         ProjectDB.carList.add(newCar9);
     }
 }
