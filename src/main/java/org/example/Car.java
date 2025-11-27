@@ -8,12 +8,13 @@ public class Car {
     private float topKPH;
     private boolean isAutomatic;
 
-    public Car(int carID, String model, String fuel, int capacity, float topKPH) {
+    public Car(int carID, String model, String fuel, int capacity, float topKPH, boolean isAutomatic) {
         this.carID = carID;
         this.model = model;
         this.fuel = fuel;
         this.capacity = capacity;
         this.topKPH = topKPH;
+        this.isAutomatic = isAutomatic;
     }
     // Getters and setters that match the actual fields
     public int getCarID() {

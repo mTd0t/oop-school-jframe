@@ -126,7 +126,7 @@ public class FirstWindow extends JFrame {
             for (Car e : ProjectDB.carList) {
                 row[0] = e.getCarID();
                 row[1] = e.getModel();
-                row[2] = e.getBrand();
+                row[2] = e.getFuel();
                 row[3] = e.getCapacity();
                 tm.addRow(row);
             }

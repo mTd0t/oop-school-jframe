@@ -23,7 +23,7 @@ public class ProjectDB {
         carList = new ArrayList<>(carList.reversed());
     }
     public static void addExistingMovies(){
-        Car newCar = new Car(2, "Pirates of the Caribbean", "Action, Thriller, Comedy", 2003);
+        Car newCar = new Car(2, "Adventure", "Mitsubishi", 2003);
         ProjectDB.carList.add(newCar);
         Car newCar2 = new Car(3, "Jurassic Park", "Action, Thriller, Horror", 1993);
         ProjectDB.carList.add(newCar2);
