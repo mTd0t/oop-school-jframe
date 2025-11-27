@@ -3,18 +3,21 @@ package org.example;
 public class Car {
     private int carID;
     private String model;
-    private String brand;
+    private String fuel;
     private int capacity;
+    private float topKPH;
+    private boolean isAutomatic;
 
-    public Car(int carID, String model, String brand, int capacity) {
+    public Car(int carID, String model, String fuel, int capacity, float topKPH) {
         this.carID = carID;
         this.model = model;
-        this.brand = brand;
+        this.fuel = fuel;
         this.capacity = capacity;
+        this.topKPH = topKPH;
     }
     // Getters and setters that match the actual fields
     public int getCarID() {
-        return carID;
+        return this.carID;
     }
 
     public void setCarID(int carID) {
@@ -22,26 +25,42 @@ public class Car {
     }
 
     public String getModel() {
-        return model;
+        return this.model;
     }
 
     public void setModel(String model) {
         this.model = model;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getFuel() {
+        return this.fuel;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setFuel(String fuel) {
+        this.fuel = fuel;
     }
 
     public int getCapacity() {
-        return capacity;
+        return this.capacity;
     }
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public float getTopKPH() {
+        return this.topKPH;
+    }
+
+    public void setTopKPH(int topKPH) {
+        this.topKPH = topKPH;
+    }
+
+    public boolean isAutomatic() {
+        return this.isAutomatic;
+    }
+
+    public void setAutomatic(boolean isAutomatic) {
+        this.isAutomatic = isAutomatic;
     }
 }
