@@ -130,9 +130,9 @@ public class InputWindow extends JFrame {
         option1 = new JRadioButton("Automatic");
         option2 = new JRadioButton("Manual");
 
-        if(transmission.contentEquals("Automatic")){
+        if (transmission.contentEquals("Automatic")) {
             option1.setSelected(true);
-        }else if(transmission.contentEquals("Manual")){
+        } else if (transmission.contentEquals("Manual")) {
             option2.setSelected(true);
         }
 
