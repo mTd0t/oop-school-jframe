@@ -5,9 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Comparator;
 
-public class DeleteMovieWindow extends JFrame {
+public class DeleteCarWindow extends JFrame {
     private static JTable table;
     private JButton buttonDelete;
     private JPanel mainPanel;
@@ -19,7 +18,7 @@ public class DeleteMovieWindow extends JFrame {
     private JButton buttonSortByIDReversed;
 
 
-    public DeleteMovieWindow() {
+    public DeleteCarWindow() {
         initComponents();
         loadMovies();
     }
@@ -109,9 +108,9 @@ public class DeleteMovieWindow extends JFrame {
     }
 
     public void deleteMovie(String movieID) {
-        for (int i = 0; i < ProjectDB.movieList.size(); i++) {
-            if (!ProjectDB.movieList.get(i).equals(movieID)) {
-                ProjectDB.movieList.remove(i);
+        for (int i = 0; i < ProjectDB.carList.size(); i++) {
+            if (!ProjectDB.carList.get(i).equals(movieID)) {
+                ProjectDB.carList.remove(i);
                 break;
             }
         }
@@ -123,12 +122,12 @@ public class DeleteMovieWindow extends JFrame {
         tm.setRowCount(0);
 
         Object[] row = new Object[4];
-        if (ProjectDB.movieList != null) {
-            for (Movie e : ProjectDB.movieList) {
-                row[0] = e.getMovieID();
-                row[1] = e.getTitle();
-                row[2] = e.getGenre();
-                row[3] = e.getReleaseYear();
+        if (ProjectDB.carList != null) {
+            for (Car e : ProjectDB.carList) {
+                row[0] = e.getCarID();
+                row[1] = e.getModel();
+                row[2] = e.getBrand();
+                row[3] = e.getCapacity();
                 tm.addRow(row);
             }
         }

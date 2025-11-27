@@ -112,8 +112,8 @@ public class InputWindow extends JFrame {
                 isValid = false;
             }
 
-            for(int i = 0; i < ProjectDB.movieList.size(); i++) {
-                if(movieID == ProjectDB.movieList.get(i).getMovieID()) {
+            for(int i = 0; i < ProjectDB.carList.size(); i++) {
+                if(movieID == ProjectDB.carList.get(i).getCarID()) {
                     JOptionPane.showMessageDialog(this, "Movie ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     isValid = false;
                 }
@@ -122,15 +122,15 @@ public class InputWindow extends JFrame {
                 return;
             }else{
 
-            Movie newMovie = new Movie(movieID, title, genre, releaseYear);
-            ProjectDB.movieList.add(newMovie);
+            Car newCar = new Car(movieID, title, genre, releaseYear);
+            ProjectDB.carList.add(newCar);
 
             JOptionPane.showMessageDialog(this, "Movie added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             // Clear all fields including genre checkboxes
             clearForm();
 
-            System.out.println("Total movies: " + ProjectDB.movieList.size());}
+            System.out.println("Total movies: " + ProjectDB.carList.size());}
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter valid numbers for ID and Year", "Error", JOptionPane.ERROR_MESSAGE);

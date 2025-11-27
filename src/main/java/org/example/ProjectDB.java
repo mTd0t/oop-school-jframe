@@ -5,30 +5,30 @@ import java.util.Comparator;
 
 public class ProjectDB {
 
-    public static ArrayList<Movie> movieList = new ArrayList<Movie>();
+    public static ArrayList<Car> carList = new ArrayList<Car>();
 
     public static void sortMoviesByID() {
-        movieList.sort(Comparator.comparingInt(Movie::getMovieID));
+        carList.sort(Comparator.comparingInt(Car::getCarID));
     }
     public static void sortMoviesByOldest() {
-        movieList.sort(Comparator.comparingInt(Movie::getReleaseYear));
+        carList.sort(Comparator.comparingInt(Car::getCapacity));
     }
     public static void sortMoviesByIDReversed() {
-        movieList.sort(Comparator.comparingInt(Movie::getMovieID));
-        movieList = new ArrayList<>(movieList.reversed());
+        carList.sort(Comparator.comparingInt(Car::getCarID));
+        carList = new ArrayList<>(carList.reversed());
     }
 
     public static void sortMoviesByNewest() {
-        movieList.sort(Comparator.comparingInt(Movie::getReleaseYear));
-        movieList = new ArrayList<>(movieList.reversed());
+        carList.sort(Comparator.comparingInt(Car::getCapacity));
+        carList = new ArrayList<>(carList.reversed());
     }
     public static void addExistingMovies(){
-        Movie newMovie = new Movie(2, "Pirates of the Caribbean", "Action, Thriller, Comedy", 2003);
-        ProjectDB.movieList.add(newMovie);
-        Movie newMovie2 = new Movie(3, "Jurassic Park", "Action, Thriller, Horror", 1993);
-        ProjectDB.movieList.add(newMovie2);
-        Movie newMovie3 = new Movie(4, "Frozen", "Drama, Comedy", 2013);
-        ProjectDB.movieList.add(newMovie3);
+        Car newCar = new Car(2, "Pirates of the Caribbean", "Action, Thriller, Comedy", 2003);
+        ProjectDB.carList.add(newCar);
+        Car newCar2 = new Car(3, "Jurassic Park", "Action, Thriller, Horror", 1993);
+        ProjectDB.carList.add(newCar2);
+        Car newCar3 = new Car(4, "Frozen", "Drama, Comedy", 2013);
+        ProjectDB.carList.add(newCar3);
 
     }
 }

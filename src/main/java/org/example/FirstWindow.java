@@ -82,7 +82,7 @@ public class FirstWindow extends JFrame {
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DeleteMovieWindow delete = new DeleteMovieWindow();
+                DeleteCarWindow delete = new DeleteCarWindow();
                 delete.setVisible(true);
                 dispose();
             }
@@ -122,12 +122,12 @@ public class FirstWindow extends JFrame {
         tm.setRowCount(0);
 
         Object[] row = new Object[4];
-        if (ProjectDB.movieList != null) {
-            for (Movie e : ProjectDB.movieList) {
-                row[0] = e.getMovieID();
-                row[1] = e.getTitle();
-                row[2] = e.getGenre();
-                row[3] = e.getReleaseYear();
+        if (ProjectDB.carList != null) {
+            for (Car e : ProjectDB.carList) {
+                row[0] = e.getCarID();
+                row[1] = e.getModel();
+                row[2] = e.getBrand();
+                row[3] = e.getCapacity();
                 tm.addRow(row);
             }
         }
