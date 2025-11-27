@@ -26,11 +26,12 @@ public class InputWindow extends JFrame {
     private void initComponents() {
         setTitle("Add New Car");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 400);
+        setSize(900, 500);
         setLocationRelativeTo(null);
 
-        JPanel mainPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel mainPanel = new JPanel(new GridLayout(7, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
 
         mainPanel.add(new JLabel("Car ID: "));
         txtCarID = new JTextField();
@@ -58,6 +59,14 @@ public class InputWindow extends JFrame {
         isAutomaticGroup = new ButtonGroup();
         isAutomaticGroup.add(option1);
         isAutomaticGroup.add(option2);
+
+        JPanel radioPanel = new JPanel(new FlowLayout());
+        radioPanel.add(option1);
+        radioPanel.add(option2);
+
+        mainPanel.add(new JLabel("Transmission:"));
+        mainPanel.add(radioPanel);
+
         //end of Radio options
 
         btnSave = new JButton("Save Car");
@@ -69,6 +78,8 @@ public class InputWindow extends JFrame {
 
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
+
+        pack();
 
         btnSave.addActionListener(new ActionListener() {
             @Override
@@ -98,43 +109,42 @@ public class InputWindow extends JFrame {
             boolean isAutomatic;
 
             //changing isAutomaticGroup String to true or false, true for automatic and false for manual
-            if(isAutomaticGroup.toString().contains("Automatic")){
-                isAutomatic = true;
-            }else{
-                isAutomatic = false;
-            }
+            isAutomatic = isAutomaticGroup.toString().contains("Automatic");
 
-            // Basic validation
+            // checks if model and brand is filled in
             if (model.isEmpty() || brand.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill all fields", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
+
+            //checks if the capacity is valid
             if (capacity < 0 || capacity > 300) {
                 JOptionPane.showMessageDialog(this, "Enter valid capacity \n 0-300", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
+            //checks if the carID is already in use
             for (int i = 0; i < ProjectDB.carList.size(); i++) {
                 if (carID == ProjectDB.carList.get(i).getCarID()) {
-                    JOptionPane.showMessageDialog(this, "Movie ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Car ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     isValid = false;
                 }
             }
-            if(isValid){
+            if (isValid) {
 
                 Car newCar = new Car(carID, model, brand, capacity, topKPH, isAutomatic);
                 ProjectDB.carList.add(newCar);
 
-                JOptionPane.showMessageDialog(this, "Movie added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Car added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                 // Clear all fields including brand checkboxes
                 clearForm();
 
-                System.out.println("Total movies: " + ProjectDB.carList.size());
+                System.out.println("Total cars: " + ProjectDB.carList.size());
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid numbers for ID and Year", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter valid Integers for ID, Capacity and Top KPH", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

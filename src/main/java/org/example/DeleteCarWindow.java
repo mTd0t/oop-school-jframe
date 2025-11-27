@@ -13,14 +13,14 @@ public class DeleteCarWindow extends JFrame {
     private JScrollPane scrollPane;
     private JButton buttonBack;
     private JButton buttonSortByID;
-    private JButton buttonSortByOldest;
-    private JButton buttonSortByNewest;
     private JButton buttonSortByIDReversed;
+    private JButton buttonSortByCapacity;
+    private JButton buttonSortByCapacityReverse;
 
 
     public DeleteCarWindow() {
         initComponents();
-        loadCars();
+        ProjectDB.loadCars();
     }
 
     private void initComponents() {
@@ -29,44 +29,45 @@ public class DeleteCarWindow extends JFrame {
         setSize(900, 500);
         setLocationRelativeTo(null);
 
-        // Use BorderLayout for the main panel instead of GridLayout
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Table setup
-        String[] columnNames = {"MovieID", "Title", "Genre", "Release Year"};
+        String[] columnNames = {"CarsID", "Model", "Brand", "Capacity", "Top Speed", "isAutomatic"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-        table = new JTable(model);
-        scrollPane = new JScrollPane(table);
+        scrollPane = new JScrollPane(ProjectDB.getTable());
 
         // Buttons panel with FlowLayout
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonDelete = new JButton("Delete Movie");
+        buttonDelete = new JButton("Delete Car");
         buttonBack = new JButton("Back to Dashboard");
         buttonSortByID = new JButton("Sort by ID");
         buttonSortByIDReversed = new JButton("Sort by ID Reversed");
-        buttonSortByOldest = new JButton("Sort by Oldest");
-        buttonSortByNewest = new JButton("Sort by Newest");
+        buttonSortByCapacity = new JButton("Sort by Largest Capacity");
+        buttonSortByCapacityReverse = new JButton("Sort by Smallest Capacity");
 
-        JTextField txtMovieID = new JTextField(15); // Set columns instead of size
-        buttonPanel.add(new JLabel("Movie ID:"));
-        buttonPanel.add(txtMovieID);
+        JTextField txtCarID = new JTextField(15); // Set columns instead of size
+        buttonPanel.add(new JLabel("Car ID:"));
+        buttonPanel.add(txtCarID);
         buttonPanel.add(buttonDelete);
         buttonPanel.add(buttonBack);
         buttonPanel.add(buttonSortByID);
         buttonPanel.add(buttonSortByIDReversed);
-        buttonPanel.add(buttonSortByOldest);
-        buttonPanel.add(buttonSortByNewest);
+        buttonPanel.add(buttonSortByCapacity);
+        buttonPanel.add(buttonSortByCapacityReverse);
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         add(mainPanel);
 
+        pack();
+
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deleteMovie(txtMovieID.getText());
-                loadCars();
+                int carID = Integer.parseInt(txtCarID.getText());
+                deleteMovie(carID);
+                ProjectDB.loadCars();
             }
         });
         buttonBack.addActionListener(new ActionListener() {
@@ -76,59 +77,42 @@ public class DeleteCarWindow extends JFrame {
                 dash.setVisible(true);
                 dispose();
             }
-        });buttonSortByID.addActionListener(new ActionListener() {
+        });
+        buttonSortByID.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProjectDB.sortCarsByID();
-                loadCars();
+                ProjectDB.loadCars();
             }
         });
         buttonSortByIDReversed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProjectDB.sortCarsByIDReversed();
-                loadCars();
+                ProjectDB.loadCars();
             }
         });
-        buttonSortByOldest.addActionListener(new ActionListener() {
+        buttonSortByCapacity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByCapacity();
-                loadCars();
+                ProjectDB.sortCarsByLargestCapacity();
+                ProjectDB.loadCars();
             }
         });
-        buttonSortByNewest.addActionListener(new ActionListener() {
+        buttonSortByCapacityReverse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByCapacityReversed();
-                loadCars();
+                ProjectDB.sortCarsBySmallestCapacity();
+                ProjectDB.loadCars();
             }
         });
-
     }
 
-    public void deleteMovie(String movieID) {
+    public void deleteMovie(int carID) {
         for (int i = 0; i < ProjectDB.carList.size(); i++) {
-            if (!ProjectDB.carList.get(i).equals(movieID)) {
+            if (ProjectDB.carList.get(i).getCarID() == carID) {
                 ProjectDB.carList.remove(i);
                 break;
-            }
-        }
-    }
-
-
-    public static void loadCars() {
-        DefaultTableModel tm = (DefaultTableModel) table.getModel();
-        tm.setRowCount(0);
-
-        Object[] row = new Object[4];
-        if (ProjectDB.carList != null) {
-            for (Car e : ProjectDB.carList) {
-                row[0] = e.getCarID();
-                row[1] = e.getModel();
-                row[2] = e.getFuel();
-                row[3] = e.getCapacity();
-                tm.addRow(row);
             }
         }
     }
