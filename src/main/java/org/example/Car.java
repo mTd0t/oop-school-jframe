@@ -5,10 +5,10 @@ public class Car {
     private String model;
     private String fuel;
     private int capacity;
-    private float topKPH;
+    private int topKPH;
     private boolean isAutomatic;
 
-    public Car(int carID, String model, String fuel, int capacity, float topKPH, boolean isAutomatic) {
+    public Car(int carID, String model, String fuel, int capacity, int topKPH, boolean isAutomatic) {
         this.carID = carID;
         this.model = model;
         this.fuel = fuel;
@@ -49,7 +49,7 @@ public class Car {
         this.capacity = capacity;
     }
 
-    public float getTopKPH() {
+    public int getTopKPH() {
         return this.topKPH;
     }
 

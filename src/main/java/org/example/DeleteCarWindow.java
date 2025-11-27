@@ -20,7 +20,7 @@ public class DeleteCarWindow extends JFrame {
 
     public DeleteCarWindow() {
         initComponents();
-        loadMovies();
+        loadCars();
     }
 
     private void initComponents() {
@@ -66,7 +66,7 @@ public class DeleteCarWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteMovie(txtMovieID.getText());
-                loadMovies();
+                loadCars();
             }
         });
         buttonBack.addActionListener(new ActionListener() {
@@ -79,29 +79,29 @@ public class DeleteCarWindow extends JFrame {
         });buttonSortByID.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortMoviesByID();
-                loadMovies();
+                ProjectDB.sortCarsByID();
+                loadCars();
             }
         });
         buttonSortByIDReversed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortMoviesByIDReversed();
-                loadMovies();
+                ProjectDB.sortCarsByIDReversed();
+                loadCars();
             }
         });
         buttonSortByOldest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortMoviesByOldest();
-                loadMovies();
+                ProjectDB.sortCarsByCapacity();
+                loadCars();
             }
         });
         buttonSortByNewest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortMoviesByNewest();
-                loadMovies();
+                ProjectDB.sortCarsByCapacityReversed();
+                loadCars();
             }
         });
 
@@ -117,7 +117,7 @@ public class DeleteCarWindow extends JFrame {
     }
 
 
-    public static void loadMovies() {
+    public static void loadCars() {
         DefaultTableModel tm = (DefaultTableModel) table.getModel();
         tm.setRowCount(0);
 

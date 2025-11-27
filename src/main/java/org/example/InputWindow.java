@@ -4,20 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class InputWindow extends JFrame {
-    private JTextField txtMovieID;
-    private JTextField txtTitle;
-    private String txtGenre;
-    private JTextField txtReleaseYear;
+    private JTextField txtCarID;
+    private JTextField txtModel;
+    private JTextField txtBrand;
+    private JTextField txtCapacity;
+    private JTextField txtTopKPH;
+    private JRadioButton option1, option2;
+    private ButtonGroup isAutomaticGroup;
+
+
     private JButton btnSave;
     private JButton btnBack;
-    public String[] genres = {"Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Romance", "Thriller"};
-    private List<JCheckBox> genreCheckBoxes;
-    private List<String> selectedGenres;
-    private JPanel genrePanel;
     private boolean isValid = true;
 
     public InputWindow() {
@@ -25,7 +24,7 @@ public class InputWindow extends JFrame {
     }
 
     private void initComponents() {
-        setTitle("Add New Movie");
+        setTitle("Add New Car");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
         setLocationRelativeTo(null);
@@ -33,42 +32,35 @@ public class InputWindow extends JFrame {
         JPanel mainPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        mainPanel.add(new JLabel("Movie ID:"));
-        txtMovieID = new JTextField();
-        mainPanel.add(txtMovieID);
+        mainPanel.add(new JLabel("Car ID: "));
+        txtCarID = new JTextField();
+        mainPanel.add(txtCarID);
 
-        mainPanel.add(new JLabel("Title:"));
-        txtTitle = new JTextField();
-        mainPanel.add(txtTitle);
+        mainPanel.add(new JLabel("Model: "));
+        txtModel = new JTextField();
+        mainPanel.add(txtModel);
 
-        mainPanel.add(new JLabel("Genre:"));
-        genrePanel = new JPanel(new GridLayout(0, 2));
-        genreCheckBoxes = new ArrayList<>();
-        selectedGenres = new ArrayList<>();
+        mainPanel.add(new JLabel("Brand: "));
+        txtBrand = new JTextField();
+        mainPanel.add(txtBrand);
 
-        for (String genre : genres) {
-            JCheckBox checkBox = new JCheckBox(genre);
-            genrePanel.add(checkBox);
-            genreCheckBoxes.add(checkBox);
+        mainPanel.add(new JLabel("Capacity: "));
+        txtCapacity = new JTextField();
+        mainPanel.add(txtCapacity);
 
-            checkBox.addActionListener(e -> {
-                if (checkBox.isSelected()) {
-                    selectedGenres.add(genre);
-                } else {
-                    selectedGenres.remove(genre);
-                }
+        mainPanel.add(new JLabel("TopKPH: "));
+        txtTopKPH = new JTextField();
+        mainPanel.add(txtTopKPH);
 
-                this.txtGenre = String.join(", ", selectedGenres);
-                System.out.println("Selected genres: " + this.txtGenre);
-            });
-        }
-        mainPanel.add(genrePanel);
+        //Radio options for Automatic or Manual
+        option1 = new JRadioButton("Automatic");
+        option2 = new JRadioButton("Manual");
+        isAutomaticGroup = new ButtonGroup();
+        isAutomaticGroup.add(option1);
+        isAutomaticGroup.add(option2);
+        //end of Radio options
 
-        mainPanel.add(new JLabel("Release Year:"));
-        txtReleaseYear = new JTextField();
-        mainPanel.add(txtReleaseYear);
-
-        btnSave = new JButton("Save Movie");
+        btnSave = new JButton("Save Car");
         btnBack = new JButton("Back to Dashboard");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -97,40 +89,49 @@ public class InputWindow extends JFrame {
 
     private void saveMovie() {
         try {
-            int movieID = Integer.parseInt(txtMovieID.getText());
-            String title = txtTitle.getText();
-            String genre = txtGenre;
-            int releaseYear = Integer.parseInt(txtReleaseYear.getText());
+            int carID = Integer.parseInt(txtCarID.getText());
+            String model = txtModel.getText();
+            String brand = txtBrand.getText();
+            int capacity = Integer.parseInt(txtCapacity.getText());
+            int topKPH = Integer.parseInt(txtTopKPH.getText());
+            String trueOrFalse;
+            boolean isAutomatic;
+
+            //changing isAutomaticGroup String to true or false, true for automatic and false for manual
+            if(isAutomaticGroup.toString().contains("Automatic")){
+                isAutomatic = true;
+            }else{
+                isAutomatic = false;
+            }
 
             // Basic validation
-            if (title.isEmpty() || genre.isEmpty()) {
+            if (model.isEmpty() || brand.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill all fields", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
-            if (releaseYear < 1878 || releaseYear > 2026) {
-                JOptionPane.showMessageDialog(this, "Enter valid release year \n 1878-2026", "ERROR", JOptionPane.ERROR_MESSAGE);
+            if (capacity < 0 || capacity > 300) {
+                JOptionPane.showMessageDialog(this, "Enter valid capacity \n 0-300", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
-            for(int i = 0; i < ProjectDB.carList.size(); i++) {
-                if(movieID == ProjectDB.carList.get(i).getCarID()) {
+            for (int i = 0; i < ProjectDB.carList.size(); i++) {
+                if (carID == ProjectDB.carList.get(i).getCarID()) {
                     JOptionPane.showMessageDialog(this, "Movie ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     isValid = false;
                 }
             }
-            if(!isValid){
-                return;
-            }else{
+            if(isValid){
 
-            Car newCar = new Car(movieID, title, genre, releaseYear);
-            ProjectDB.carList.add(newCar);
+                Car newCar = new Car(carID, model, brand, capacity, topKPH, isAutomatic);
+                ProjectDB.carList.add(newCar);
 
-            JOptionPane.showMessageDialog(this, "Movie added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Movie added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-            // Clear all fields including genre checkboxes
-            clearForm();
+                // Clear all fields including brand checkboxes
+                clearForm();
 
-            System.out.println("Total movies: " + ProjectDB.carList.size());}
+                System.out.println("Total movies: " + ProjectDB.carList.size());
+            }
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter valid numbers for ID and Year", "Error", JOptionPane.ERROR_MESSAGE);
@@ -138,16 +139,11 @@ public class InputWindow extends JFrame {
     }
 
     private void clearForm() {
-        txtMovieID.setText("");
-        txtTitle.setText("");
-        txtReleaseYear.setText("");
-
-        // Clear all genre checkboxes
-        for (JCheckBox checkBox : genreCheckBoxes) {
-            checkBox.setSelected(false);
-        }
-        selectedGenres.clear();
-        txtGenre = "";
+        txtCarID.setText("");
+        txtModel.setText("");
+        txtBrand.setText("");
+        txtCapacity.setText("");
+        txtTopKPH.setText("");
 
         System.out.println("Form cleared");
     }
