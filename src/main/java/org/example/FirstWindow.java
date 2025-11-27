@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 public class FirstWindow extends JFrame {
     private JButton buttonAdd;
+    private JButton buttonEdit;
     private JButton buttonDelete;
     private JPanel mainPanel;
     private JScrollPane scrollPane;
@@ -37,6 +38,7 @@ public class FirstWindow extends JFrame {
         // Buttons panel
         JPanel buttonPanel = new JPanel();
         buttonAdd = new JButton("Add New Car");
+        buttonEdit = new JButton("Edit Car");
         buttonDelete = new JButton("Delete Car");
         buttonSortByID = new JButton("Sort by ID");
         buttonSortByIDReversed = new JButton("Sort by ID Reversed");
@@ -45,6 +47,7 @@ public class FirstWindow extends JFrame {
 
 
         buttonPanel.add(buttonAdd);
+        buttonPanel.add(buttonEdit);
         buttonPanel.add(buttonDelete);
         buttonPanel.add(buttonSortByID);
         buttonPanel.add(buttonSortByIDReversed);
@@ -67,10 +70,18 @@ public class FirstWindow extends JFrame {
                 dispose();
             }
         });
+        buttonEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputWindow newWindow = new InputWindow();
+                newWindow.setVisible(true);
+                dispose();
+            }
+        });
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DeleteCarWindow delete = new DeleteCarWindow();
+                EditCars delete = new EditCars();
                 delete.setVisible(true);
                 dispose();
             }
