@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Comparator;
 
 public class FirstWindow extends JFrame {
     private JButton buttonAdd;
@@ -67,7 +68,6 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 InputWindow newWindow = new InputWindow();
                 newWindow.setVisible(true);
-                dispose();
             }
         });
         buttonEdit.addActionListener(new ActionListener() {
@@ -75,7 +75,6 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 EditCars newWindow = new EditCars();
                 newWindow.setVisible(true);
-                dispose();
             }
         });
         buttonDelete.addActionListener(new ActionListener() {
@@ -83,34 +82,33 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 DeleteCarWindow delete = new DeleteCarWindow();
                 delete.setVisible(true);
-                dispose();
             }
         });
         buttonSortByID.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByID();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCarID));
                 ProjectDB.loadCars();
             }
         });
         buttonSortByIDReversed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByIDReversed();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCarID).reversed());
                 ProjectDB.loadCars();
             }
         });
         buttonSortByLargestCapacity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByLargestCapacity();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCapacity).reversed());
                 ProjectDB.loadCars();
             }
         });
         buttonSortByLeastCapacity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsBySmallestCapacity();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCapacity));
                 ProjectDB.loadCars();
             }
         });

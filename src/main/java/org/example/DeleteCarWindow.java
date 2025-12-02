@@ -8,14 +8,6 @@ import java.awt.event.ActionListener;
 
 public class DeleteCarWindow extends JFrame {
     private static JTable table;
-    private JButton buttonDelete;
-    private JPanel mainPanel;
-    private JScrollPane scrollPane;
-    private JButton buttonBack;
-    private JButton buttonSortByID;
-    private JButton buttonSortByIDReversed;
-    private JButton buttonSortByCapacity;
-    private JButton buttonSortByCapacityReverse;
 
 
     public DeleteCarWindow() {
@@ -24,39 +16,28 @@ public class DeleteCarWindow extends JFrame {
     }
 
     private void initComponents() {
-        setTitle("Movies DashBoard");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Delete Car");
         setSize(900, 500);
         setLocationRelativeTo(null);
 
-        mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Table setup
         String[] columnNames = {"CarsID", "Model", "Brand", "Capacity", "Top Speed", "isAutomatic"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-        scrollPane = new JScrollPane(ProjectDB.getTable());
 
         // Buttons panel with FlowLayout
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonDelete = new JButton("Delete Car");
-        buttonBack = new JButton("Back to Dashboard");
-        buttonSortByID = new JButton("Sort by ID");
-        buttonSortByIDReversed = new JButton("Sort by ID Reversed");
-        buttonSortByCapacity = new JButton("Sort by Largest Capacity");
-        buttonSortByCapacityReverse = new JButton("Sort by Smallest Capacity");
+        JButton buttonDelete = new JButton("Delete Car");
+        JButton buttonBack = new JButton("Cancel");
 
         JTextField txtCarID = new JTextField(15); // Set columns instead of size
         buttonPanel.add(new JLabel("Car ID:"));
         buttonPanel.add(txtCarID);
         buttonPanel.add(buttonDelete);
         buttonPanel.add(buttonBack);
-        buttonPanel.add(buttonSortByID);
-        buttonPanel.add(buttonSortByIDReversed);
-        buttonPanel.add(buttonSortByCapacity);
-        buttonPanel.add(buttonSortByCapacityReverse);
 
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         add(mainPanel);
 
@@ -67,6 +48,8 @@ public class DeleteCarWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int carID = Integer.parseInt(txtCarID.getText());
                 deleteCar(carID);
+                JOptionPane.showMessageDialog(DeleteCarWindow.this, "Car has been deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
                 ProjectDB.loadCars();          // refresh the model
                 ProjectDB.getTable().repaint();
             }
@@ -74,37 +57,7 @@ public class DeleteCarWindow extends JFrame {
         buttonBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                FirstWindow dash = new FirstWindow();
-                dash.setVisible(true);
                 dispose();
-            }
-        });
-        buttonSortByID.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByID();
-                ProjectDB.loadCars();
-            }
-        });
-        buttonSortByIDReversed.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByIDReversed();
-                ProjectDB.loadCars();
-            }
-        });
-        buttonSortByCapacity.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByLargestCapacity();
-                ProjectDB.loadCars();
-            }
-        });
-        buttonSortByCapacityReverse.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsBySmallestCapacity();
-                ProjectDB.loadCars();
             }
         });
     }

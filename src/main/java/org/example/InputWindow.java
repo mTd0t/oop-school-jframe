@@ -24,7 +24,6 @@ public class InputWindow extends JFrame {
 
     public InputWindow() {
         setTitle("Add New Car");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 500);
         setLocationRelativeTo(null);
 
@@ -69,7 +68,7 @@ public class InputWindow extends JFrame {
         //end of Radio options
 
         btnSave = new JButton("Save Car");
-        btnBack = new JButton("Back to Dashboard");
+        btnBack = new JButton("Cancel");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(btnSave);
@@ -84,6 +83,7 @@ public class InputWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 saveCar();
+                dispose();
                 ProjectDB.loadCars();
             }
         });
@@ -91,8 +91,6 @@ public class InputWindow extends JFrame {
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                FirstWindow dash = new FirstWindow();
-                dash.setVisible(true);
                 dispose();
             }
         });
@@ -101,7 +99,6 @@ public class InputWindow extends JFrame {
     //Constructor Chaining
     public InputWindow(int carID, String model, String brand, String capacity, String topKPH, String transmission) {
         setTitle("Edit Car");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 500);
         setLocationRelativeTo(null);
 
@@ -153,7 +150,7 @@ public class InputWindow extends JFrame {
         mainPanel.add(radioPanel);
 
         btnSave = new JButton("Save Edited Car");
-        btnBack = new JButton("Back to Edit Window");
+        btnBack = new JButton("Cancel");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(btnSave);
@@ -168,6 +165,7 @@ public class InputWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 saveEdit();
+                dispose();
                 ProjectDB.loadCars();
             }
         });
@@ -175,8 +173,6 @@ public class InputWindow extends JFrame {
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                EditCars dash = new EditCars();
-                dash.setVisible(true);
                 dispose();
             }
         });
