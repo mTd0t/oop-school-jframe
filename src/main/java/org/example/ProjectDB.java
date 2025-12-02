@@ -8,7 +8,12 @@ import java.util.List;
 
 
 public class ProjectDB {
-    private static final JTable table = new JTable(new DefaultTableModel(new Object[]{"ID", "Model", "Brand", "Capacity", "Top KPH", "Automatic"}, 0));
+    private static final JTable table = new JTable(new DefaultTableModel(new Object[]{"ID", "Model", "Brand", "Capacity", "Top KPH", "Automatic"}, 0)) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     public static ArrayList<Car> carList;
 
     public static void loadCars() {
