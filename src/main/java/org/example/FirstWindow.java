@@ -76,7 +76,6 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 EditCars newWindow = new EditCars();
                 newWindow.setVisible(true);
-                dispose();
             }
         });
         buttonDelete.addActionListener(new ActionListener() {
