@@ -4,9 +4,8 @@ package org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        FirstWindow window = new FirstWindow(); //good night sir
         ProjectDB.addExistingCars();
-        ProjectDB.loadCars();//refreshes the table, so you can see the added movies
+        FirstWindow window = new FirstWindow(); //good night sir
         window.setVisible(true);
     }
 }
