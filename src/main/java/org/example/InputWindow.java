@@ -24,7 +24,6 @@ public class InputWindow extends JFrame {
 
     public InputWindow() {
         setTitle("Add New Car");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 500);
         setLocationRelativeTo(null);
 

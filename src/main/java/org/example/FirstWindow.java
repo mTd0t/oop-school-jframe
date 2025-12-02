@@ -68,7 +68,6 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 InputWindow newWindow = new InputWindow();
                 newWindow.setVisible(true);
-                dispose();
             }
         });
         buttonEdit.addActionListener(new ActionListener() {
@@ -83,7 +82,6 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 DeleteCarWindow delete = new DeleteCarWindow();
                 delete.setVisible(true);
-                dispose();
             }
         });
         buttonSortByID.addActionListener(new ActionListener() {

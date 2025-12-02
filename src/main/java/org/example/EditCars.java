@@ -1,11 +1,9 @@
 package org.example;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Comparator;
 
 public class EditCars extends JFrame {
     public EditCars() {
@@ -13,7 +11,7 @@ public class EditCars extends JFrame {
     }
 
     private void initComponents() {
-        setTitle("Cars Editing DashBoard");
+        setTitle("Edit Car Details");
         setSize(900, 500);
         setLocationRelativeTo(null);
 
