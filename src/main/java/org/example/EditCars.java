@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Comparator;
 
 public class EditCars extends JFrame {
     private static JTable table;
@@ -81,28 +82,28 @@ public class EditCars extends JFrame {
         buttonSortByID.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByID();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCarID));
                 ProjectDB.loadCars();
             }
         });
         buttonSortByIDReversed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByIDReversed();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCarID).reversed());
                 ProjectDB.loadCars();
             }
         });
         buttonSortByCapacity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsByLargestCapacity();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCapacity).reversed());
                 ProjectDB.loadCars();
             }
         });
         buttonSortByCapacityReverse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProjectDB.sortCarsBySmallestCapacity();
+                ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCapacity));
                 ProjectDB.loadCars();
             }
         });

@@ -32,22 +32,8 @@ public class ProjectDB {
         return table;
     }
 
-    public static void sortCarsByID() {
-        carList.sort(Comparator.comparingInt(Car::getCarID));
-    }
-
-    public static void sortCarsByLargestCapacity() {
-        carList.sort(Comparator.comparingInt(Car::getCapacity));
-        carList = new ArrayList<>(carList.reversed());
-    }
-
-    public static void sortCarsByIDReversed() {
-        carList.sort(Comparator.comparingInt(Car::getCarID));
-        carList = new ArrayList<>(carList.reversed());
-    }
-
-    public static void sortCarsBySmallestCapacity() {
-        carList.sort(Comparator.comparingInt(Car::getCapacity));
+    public static void sortCarsBy(Comparator<Car> comparator) {
+        carList.sort(comparator);
     }
 
     public static void addExistingCars() {
