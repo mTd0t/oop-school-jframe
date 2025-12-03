@@ -7,6 +7,7 @@ public class Car {
     private int capacity;
     private int topKPH;
     private String transmission;
+    private boolean rented = false;
 
     public Car(int carID, String model, String brand, int capacity, int topKPH, String transmission) {
         this.carID = carID;
@@ -64,5 +65,13 @@ public class Car {
 
     public void setTransmission(String transmission) {
         this.transmission = transmission;
+    }
+
+    public boolean isRented() {
+        return this.rented;
+    }
+
+    public void setRented(boolean rented) {
+        this.rented = rented;
     }
 }
