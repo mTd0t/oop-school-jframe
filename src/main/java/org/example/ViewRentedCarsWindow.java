@@ -13,11 +13,11 @@ public class ViewRentedCarsWindow extends JFrame {
 
     private void initComponents() {
         setTitle("Currently Rented Cars");
-        setSize(1200, 500);
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.setPreferredSize(new Dimension(600, 400));
 
         String[] columnNames = {"Car ID", "Model", "Renter Name", "Phone", "Rent Date", "Duration", "Return Date"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
