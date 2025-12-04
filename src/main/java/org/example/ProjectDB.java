@@ -2,25 +2,36 @@ package org.example;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
+import java.time.LocalDate;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ProjectDB {
-    private static final JTable table = new JTable(new DefaultTableModel(new Object[]{"ID", "Model", "Brand", "Capacity", "Top KPH", "Automatic"}, 0)) {
+    private static final JTable table = new JTable(new DefaultTableModel(
+            new Object[]{"ID", "Model", "Brand", "Capacity", "Top KPH", "Transmission", "Status", "Return Date"}, 0)) {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
+
     public static ArrayList<Car> carList;
+    public static HashMap<Integer, RentalTransaction> activeRentals = new HashMap<>();
+    public static LinkedList<PendingRental> pendingQueue = new LinkedList<>();
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    static {
+        // runns every hour to check and update expired rentals
+        scheduler.scheduleAtFixedRate(ProjectDB::checkAndUpdateRentals, 0, 1, TimeUnit.HOURS);
+    }
 
     public static void loadCars() {
         DefaultTableModel tm = (DefaultTableModel) table.getModel();
         tm.setRowCount(0);
 
-        Object[] row = new Object[6];
+        Object[] row = new Object[8]; // Increased size for new columns
         if (ProjectDB.carList != null) {
             for (Car e : ProjectDB.carList) {
                 row[0] = e.getCarID();
@@ -29,6 +40,16 @@ public class ProjectDB {
                 row[3] = e.getCapacity();
                 row[4] = e.getTopKPH();
                 row[5] = e.getTransmission();
+
+                // checks rental status
+                if (e.isRented()) {
+                    row[6] = "RENTED";
+                    RentalTransaction rental = activeRentals.get(e.getCarID());
+                    row[7] = (rental != null) ? rental.getFormattedReturnDate() : "N/A";
+                } else {
+                    row[6] = "AVAILABLE";
+                    row[7] = "-";
+                }
                 tm.addRow(row);
             }
         }
@@ -54,5 +75,94 @@ public class ProjectDB {
                 new Car(8, "Telluride SX", "Kia", 8, 190, "Automatic"),
                 new Car(9, "Corvette Stingray", "Chevrolet", 2, 290, "Automatic")
         ));
+    }
+
+    // NEW: Rent a car with validation
+    public static boolean rentCar(int carID, String renterName, String renterPhone, int duration) {
+        Car car = findCarByID(carID);
+        if (car == null || car.isRented()) {
+            return false; // Car doesn't exist or already rented
+        }
+
+        car.setRented(true);
+        RentalTransaction rental = new RentalTransaction(renterName, renterPhone, carID, car.getModel(), duration);
+        activeRentals.put(carID, rental);
+        loadCars(); // Refresh display
+        return true;
+    }
+
+    // NEW: Return a rented car
+    public static boolean returnCar(int carID) {
+        RentalTransaction rental = activeRentals.get(carID);
+        if (rental == null) {
+            return false; // No active rental found
+        }
+
+        rental.setReturned(true);
+        Car car = findCarByID(carID);
+        if (car != null) {
+            car.setRented(false);
+        }
+        activeRentals.remove(carID);
+
+        // Check pending queue for this car
+        processPendingQueue(carID);
+        loadCars();
+        return true;
+    }
+
+    // NEW: Add to pending queue if car is unavailable
+    public static void addToPendingQueue(String renterName, String renterPhone, int carID, int duration) {
+        pendingQueue.add(new PendingRental(renterName, renterPhone, carID, duration));
+    }
+
+    // NEW: Process queue when car becomes available
+    private static void processPendingQueue(int carID) {
+        Iterator<PendingRental> iterator = pendingQueue.iterator();
+        while (iterator.hasNext()) {
+            PendingRental pending = iterator.next();
+            if (pending.getCarID() == carID) {
+                // Auto-rent to first pending customer
+                if (rentCar(carID, pending.getRenterName(), pending.getRenterPhone(), pending.getDurationDays())) {
+                    JOptionPane.showMessageDialog(null,
+                            "Car " + carID + " automatically rented to " + pending.getRenterName() + " from queue!",
+                            "Queue Processed", JOptionPane.INFORMATION_MESSAGE);
+                    iterator.remove();
+                    break; // Only rent to first person in queue
+                }
+            }
+        }
+    }
+
+    // NEW: Automatic rental expiration checker
+    private static void checkAndUpdateRentals() {
+        LocalDate today = LocalDate.now();
+        List<Integer> toRemove = new ArrayList<>();
+
+        for (Map.Entry<Integer, RentalTransaction> entry : activeRentals.entrySet()) {
+            if (entry.getValue().getReturnDate().isBefore(today) ||
+                    entry.getValue().getReturnDate().isEqual(today)) {
+                toRemove.add(entry.getKey());
+            }
+        }
+
+        for (int carID : toRemove) {
+            returnCar(carID); // Auto-return expired rentals
+        }
+    }
+
+    // NEW: Helper method to find car by ID
+    public static Car findCarByID(int carID) {
+        for (Car car : carList) {
+            if (car.getCarID() == carID) {
+                return car;
+            }
+        }
+        return null;
+    }
+
+    // NEW: Get all active rentals for display
+    public static ArrayList<RentalTransaction> getAllActiveRentals() {
+        return new ArrayList<>(activeRentals.values());
     }
 }

@@ -17,6 +17,9 @@ public class FirstWindow extends JFrame {
     private JButton buttonSortByLargestCapacity;
     private JButton buttonSortByLeastCapacity;
     private JButton buttonSortByIDReversed;
+    private JButton buttonRent;
+    private JButton buttonReturn;
+    private JButton buttonViewRented;
 
 
     public FirstWindow() {
@@ -45,6 +48,9 @@ public class FirstWindow extends JFrame {
         buttonSortByIDReversed = new JButton("Sort by ID Reversed");
         buttonSortByLargestCapacity = new JButton("Sort by Largest Capacity");
         buttonSortByLeastCapacity = new JButton("Sort by Smallest Capacity");
+        buttonRent = new JButton("Rent Car");
+        buttonReturn = new JButton("Return Car");
+        buttonViewRented = new JButton("View Rented Cars");
 
 
         buttonPanel.add(buttonAdd);
@@ -54,6 +60,9 @@ public class FirstWindow extends JFrame {
         buttonPanel.add(buttonSortByIDReversed);
         buttonPanel.add(buttonSortByLargestCapacity);
         buttonPanel.add(buttonSortByLeastCapacity);
+        buttonPanel.add(buttonRent);
+        buttonPanel.add(buttonReturn);
+        buttonPanel.add(buttonViewRented);
 
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -62,7 +71,7 @@ public class FirstWindow extends JFrame {
         add(mainPanel);
 
         pack();
-        // Button actions
+        // buttons actions
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,6 +119,29 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 ProjectDB.sortCarsBy(Comparator.comparingInt(Car::getCapacity));
                 ProjectDB.loadCars();
+            }
+        });
+        buttonRent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RentCarWindow rentWindow = new RentCarWindow();
+                rentWindow.setVisible(true);
+            }
+        });
+
+        buttonReturn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReturnCarWindow returnWindow = new ReturnCarWindow();
+                returnWindow.setVisible(true);
+            }
+        });
+
+        buttonViewRented.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewRentedCarsWindow viewWindow = new ViewRentedCarsWindow();
+                viewWindow.setVisible(true);
             }
         });
     }

@@ -51,7 +51,7 @@ public class InputWindow extends JFrame {
         txtTopKPH = new JTextField();
         mainPanel.add(txtTopKPH);
 
-        //Radio options for Automatic or Manual
+        //radio options for auto or manualk
         option1 = new JRadioButton("Automatic");
         option2 = new JRadioButton("Manual");
         transmissionButtonGroup = new ButtonGroup();
@@ -65,7 +65,7 @@ public class InputWindow extends JFrame {
         mainPanel.add(new JLabel("Transmission:"));
         mainPanel.add(radioPanel);
 
-        //end of Radio options
+        //end of radio options
 
         btnSave = new JButton("Save Car");
         btnBack = new JButton("Cancel");
@@ -286,7 +286,7 @@ public class InputWindow extends JFrame {
 
                 JOptionPane.showMessageDialog(this, "Car added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // Clear all fields including brand checkboxes
+                // clear all fields including brand checkboxes
                 clearForm();
 
                 System.out.println("Total cars: " + ProjectDB.carList.size());

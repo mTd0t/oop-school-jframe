@@ -18,7 +18,6 @@ public class EditCars extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Buttons panel with FlowLayout
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton buttonEdit = new JButton("Edit Car");
         JButton buttonBack = new JButton("Cancel");
