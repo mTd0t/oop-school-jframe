@@ -24,17 +24,17 @@ public class ReturnCarWindow extends JFrame {
         txtCarID = new JTextField();
         mainPanel.add(txtCarID);
 
-        JButton btnReturn = new JButton("Return Car");
-        JButton btnCancel = new JButton("Cancel");
+        JButton buttonReturn = new JButton("Return Car");
+        JButton buttonCancel = new JButton("Cancel");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(btnReturn);
-        buttonPanel.add(btnCancel);
+        buttonPanel.add(buttonReturn);
+        buttonPanel.add(buttonCancel);
 
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        btnReturn.addActionListener(new ActionListener() {
+        buttonReturn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -53,7 +53,7 @@ public class ReturnCarWindow extends JFrame {
             }
         });
 
-        btnCancel.addActionListener(new ActionListener() {
+        buttonCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();

@@ -31,7 +31,7 @@ public class ProjectDB {
         DefaultTableModel tm = (DefaultTableModel) table.getModel();
         tm.setRowCount(0);
 
-        Object[] row = new Object[8]; // Increased size for new columns
+        Object[] row = new Object[8];
         if (ProjectDB.carList != null) {
             for (Car e : ProjectDB.carList) {
                 row[0] = e.getCarID();
@@ -77,7 +77,7 @@ public class ProjectDB {
         ));
     }
 
-    // NEW: Rent a car with validation
+    // rent car function with a bit of validation
     public static boolean rentCar(int carID, String renterName, String renterPhone, int duration) {
         Car car = findCarByID(carID);
         if (car == null || car.isRented()) {
@@ -91,7 +91,7 @@ public class ProjectDB {
         return true;
     }
 
-    // NEW: Return a rented car
+    // return car function
     public static boolean returnCar(int carID) {
         RentalTransaction rental = activeRentals.get(carID);
         if (rental == null) {
@@ -105,18 +105,18 @@ public class ProjectDB {
         }
         activeRentals.remove(carID);
 
-        // Check pending queue for this car
+        // checks the queue for the car
         processPendingQueue(carID);
         loadCars();
         return true;
     }
 
-    // NEW: Add to pending queue if car is unavailable
+    // adds to the queue if car is not available
     public static void addToPendingQueue(String renterName, String renterPhone, int carID, int duration) {
         pendingQueue.add(new PendingRental(renterName, renterPhone, carID, duration));
     }
 
-    // NEW: Process queue when car becomes available
+    // processes the queue
     private static void processPendingQueue(int carID) {
         Iterator<PendingRental> iterator = pendingQueue.iterator();
         while (iterator.hasNext()) {
@@ -134,7 +134,7 @@ public class ProjectDB {
         }
     }
 
-    // NEW: Automatic rental expiration checker
+    // rental expiration checker
     private static void checkAndUpdateRentals() {
         LocalDate today = LocalDate.now();
         List<Integer> toRemove = new ArrayList<>();
@@ -151,7 +151,6 @@ public class ProjectDB {
         }
     }
 
-    // NEW: Helper method to find car by ID
     public static Car findCarByID(int carID) {
         for (Car car : carList) {
             if (car.getCarID() == carID) {
@@ -161,7 +160,7 @@ public class ProjectDB {
         return null;
     }
 
-    // NEW: Get all active rentals for display
+    //gets all active rentals from the arrayList
     public static ArrayList<RentalTransaction> getAllActiveRentals() {
         return new ArrayList<>(activeRentals.values());
     }

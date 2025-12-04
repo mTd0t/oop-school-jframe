@@ -286,7 +286,7 @@ public class InputWindow extends JFrame {
 
                 JOptionPane.showMessageDialog(this, "Car added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // clear all fields including brand checkboxes
+                // clear entire form
                 clearForm();
 
                 System.out.println("Total cars: " + ProjectDB.carList.size());

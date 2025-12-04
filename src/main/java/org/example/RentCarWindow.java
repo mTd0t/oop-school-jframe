@@ -41,17 +41,17 @@ public class RentCarWindow extends JFrame {
         txtDuration = new JTextField();
         mainPanel.add(txtDuration);
 
-        JButton btnRent = new JButton("Rent Car");
-        JButton btnCancel = new JButton("Cancel");
+        JButton buttonRent = new JButton("Rent Car");
+        JButton buttonCancel = new JButton("Cancel");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(btnRent);
-        buttonPanel.add(btnCancel);
+        buttonPanel.add(buttonRent);
+        buttonPanel.add(buttonCancel);
 
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        btnRent.addActionListener(new ActionListener() {
+        buttonRent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -99,7 +99,7 @@ public class RentCarWindow extends JFrame {
             }
         });
 
-        btnCancel.addActionListener(new ActionListener() {
+        buttonCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
