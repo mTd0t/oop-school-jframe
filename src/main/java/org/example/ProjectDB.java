@@ -16,11 +16,10 @@ public class ProjectDB {
             return false;
         }
     };
-
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public static ArrayList<Car> carList;
     public static HashMap<Integer, RentalTransaction> activeRentals = new HashMap<>();
     public static LinkedList<PendingRental> pendingQueue = new LinkedList<>();
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     static {
         // runns every hour to check and update expired rentals
@@ -75,6 +74,20 @@ public class ProjectDB {
                 new Car(8, "Telluride SX", "Kia", 8, 190, "Automatic"),
                 new Car(9, "Corvette Stingray", "Chevrolet", 2, 290, "Automatic")
         ));
+    }
+
+    public static void addExistingRentals() {
+        activeRentals = new HashMap<>();
+        activeRentals.put(5, new RentalTransaction("Santos Vince", "09765492925", 5, "Bronco Badlands", 1));
+        activeRentals.put(3, new RentalTransaction("Rawr", "09565292925", 3, "Xpander", 3));
+        activeRentals.put(8, new RentalTransaction("Pewpew", "1234567890", 8, "Telluride SX", 2));
+
+        for (int carID : activeRentals.keySet()) {
+            Car car = findCarByID(carID);
+            if (car != null) {
+                car.setRented(true);
+            }
+        }
     }
 
     // rent car function with a bit of validation
