@@ -13,7 +13,7 @@ public class ViewRentedCarsWindow extends JFrame {
 
     private void initComponents() {
         setTitle("Currently Rented Cars");
-        setSize(800, 500);
+        setSize(1200, 500);
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
