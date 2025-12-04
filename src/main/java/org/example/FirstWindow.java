@@ -34,12 +34,10 @@ public class FirstWindow extends JFrame {
         setLocationRelativeTo(null);
 
         mainPanel = new JPanel(new BorderLayout());
-        // Table setup
         String[] columnNames = {"CarsID", "Model", "Brand", "Capacity", "Top Speed", "isAutomatic"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         scrollPane = new JScrollPane(ProjectDB.getTable());
 
-        // Buttons panel
         JPanel buttonPanel = new JPanel();
         buttonAdd = new JButton("Add New Car");
         buttonEdit = new JButton("Edit Car");

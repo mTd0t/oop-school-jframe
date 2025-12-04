@@ -18,7 +18,6 @@ public class Car {
         this.transmission = transmission;
     }
 
-    // Getters and setters that match the actual fields
     public int getCarID() {
         return this.carID;
     }

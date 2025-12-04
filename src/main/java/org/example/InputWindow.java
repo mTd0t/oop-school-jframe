@@ -96,7 +96,7 @@ public class InputWindow extends JFrame {
         });
     }
 
-    //Constructor Chaining
+    //constructor Chaining
     public InputWindow(int carID, String model, String brand, String capacity, String topKPH, String transmission) {
         setTitle("Edit Car");
         setSize(900, 500);
@@ -128,7 +128,7 @@ public class InputWindow extends JFrame {
         txtTopKPH = new JTextField(topKPH);
         mainPanel.add(txtTopKPH);
 
-        // Radio options
+        // radio options
         option1 = new JRadioButton("Automatic");
         option2 = new JRadioButton("Manual");
 
@@ -232,7 +232,7 @@ public class InputWindow extends JFrame {
 
                 JOptionPane.showMessageDialog(this, "Car edited successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // Clear all fields including brand checkboxes
+                // clears everything on the form
                 clearForm();
 
                 System.out.println("Total cars: " + ProjectDB.carList.size());

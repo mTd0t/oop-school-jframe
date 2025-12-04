@@ -23,11 +23,9 @@ public class DeleteCarWindow extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Table setup
         String[] columnNames = {"CarsID", "Model", "Brand", "Capacity", "Top Speed", "isAutomatic"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
-        // Buttons panel with FlowLayout
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton buttonDelete = new JButton("Delete Car");
         JButton buttonBack = new JButton("Cancel");
