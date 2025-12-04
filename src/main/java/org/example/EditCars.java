@@ -22,7 +22,7 @@ public class EditCars extends JFrame {
         JButton buttonEdit = new JButton("Edit Car");
         JButton buttonBack = new JButton("Cancel");
 
-        JTextField txtCarID = new JTextField(15); // Set columns instead of size
+        JTextField txtCarID = new JTextField(15);
         buttonPanel.add(new JLabel("Car ID:"));
         buttonPanel.add(txtCarID);
         buttonPanel.add(buttonEdit);

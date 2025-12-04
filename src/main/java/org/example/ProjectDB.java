@@ -81,13 +81,13 @@ public class ProjectDB {
     public static boolean rentCar(int carID, String renterName, String renterPhone, int duration) {
         Car car = findCarByID(carID);
         if (car == null || car.isRented()) {
-            return false; // Car doesn't exist or already rented
+            return false;
         }
 
         car.setRented(true);
         RentalTransaction rental = new RentalTransaction(renterName, renterPhone, carID, car.getModel(), duration);
         activeRentals.put(carID, rental);
-        loadCars(); // Refresh display
+        loadCars();
         return true;
     }
 
@@ -95,7 +95,7 @@ public class ProjectDB {
     public static boolean returnCar(int carID) {
         RentalTransaction rental = activeRentals.get(carID);
         if (rental == null) {
-            return false; // No active rental found
+            return false;
         }
 
         rental.setReturned(true);
@@ -122,13 +122,12 @@ public class ProjectDB {
         while (iterator.hasNext()) {
             PendingRental pending = iterator.next();
             if (pending.getCarID() == carID) {
-                // Auto-rent to first pending customer
                 if (rentCar(carID, pending.getRenterName(), pending.getRenterPhone(), pending.getDurationDays())) {
                     JOptionPane.showMessageDialog(null,
                             "Car " + carID + " automatically rented to " + pending.getRenterName() + " from queue!",
                             "Queue Processed", JOptionPane.INFORMATION_MESSAGE);
                     iterator.remove();
-                    break; // Only rent to first person in queue
+                    break;
                 }
             }
         }
@@ -147,7 +146,7 @@ public class ProjectDB {
         }
 
         for (int carID : toRemove) {
-            returnCar(carID); // Auto-return expired rentals
+            returnCar(carID); // auto returns expired rentals
         }
     }
 

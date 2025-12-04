@@ -109,7 +109,7 @@ public class InputWindow extends JFrame {
 
         mainPanel.add(new JLabel("Car ID: "));
         txtCarID = new JTextField(String.valueOf(carID));
-        txtCarID.setEditable(false); // ✅ Make it read-only
+        txtCarID.setEditable(false);
         mainPanel.add(txtCarID);
 
         mainPanel.add(new JLabel("Model: "));
@@ -206,7 +206,7 @@ public class InputWindow extends JFrame {
                 isValid = false;
             }
 
-            // Find the index of the car being edited
+            // find index of car
             int editIndex = -1;
             for (int i = 0; i < ProjectDB.carList.size(); i++) {
                 if (ProjectDB.carList.get(i).getCarID() == oldCarID) {
@@ -215,7 +215,7 @@ public class InputWindow extends JFrame {
                 }
             }
 
-            // Check for duplicate ID only if ID changed
+            // check for duplicate id
             if (newCarID != oldCarID) {
                 for (Car car : ProjectDB.carList) {
                     if (car.getCarID() == newCarID) {
