@@ -1,10 +1,10 @@
 package org.example;
 
 public class PendingRental {
-    private String renterName;
-    private String renterPhone;
-    private int carID;
-    private int durationDays;
+    private final String renterName;
+    private final String renterPhone;
+    private final int carID;
+    private final int durationDays;
 
     public PendingRental(String renterName, String renterPhone, int carID, int durationDays) {
         this.renterName = renterName;
@@ -14,8 +14,19 @@ public class PendingRental {
     }
 
     // getters
-    public String getRenterName() { return renterName; }
-    public String getRenterPhone() { return renterPhone; }
-    public int getCarID() { return carID; }
-    public int getDurationDays() { return durationDays; }
+    public String getRenterName() {
+        return renterName;
+    }
+
+    public String getRenterPhone() {
+        return renterPhone;
+    }
+
+    public int getCarID() {
+        return carID;
+    }
+
+    public int getDurationDays() {
+        return durationDays;
+    }
 }
