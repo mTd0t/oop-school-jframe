@@ -20,6 +20,7 @@ public class FirstWindow extends JFrame {
     private JButton buttonRent;
     private JButton buttonReturn;
     private JButton buttonViewRented;
+    private JButton buttonViewQueue;
 
 
     public FirstWindow() {
@@ -30,7 +31,6 @@ public class FirstWindow extends JFrame {
     private void initComponents() {
         setTitle("Cars DashBoard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 500);
         setLocationRelativeTo(null);
 
         mainPanel = new JPanel(new BorderLayout());
@@ -38,33 +38,40 @@ public class FirstWindow extends JFrame {
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         scrollPane = new JScrollPane(ProjectDB.getTable());
 
-        JPanel buttonPanel = new JPanel();
+        JPanel sortButtonPanel = new JPanel();
+        JPanel functionalButtonPanel = new JPanel(new GridLayout(0,1));
+
+        buttonViewRented = new JButton("View Rented Cars");
         buttonAdd = new JButton("Add New Car");
         buttonEdit = new JButton("Edit Car");
         buttonDelete = new JButton("Delete Car");
+        buttonRent = new JButton("Rent Car");
+        buttonReturn = new JButton("Return Car");
+        buttonViewQueue = new JButton("View Queue");
+
         buttonSortByID = new JButton("Sort by ID");
         buttonSortByIDReversed = new JButton("Sort by ID Reversed");
         buttonSortByLargestCapacity = new JButton("Sort by Largest Capacity");
         buttonSortByLeastCapacity = new JButton("Sort by Smallest Capacity");
-        buttonRent = new JButton("Rent Car");
-        buttonReturn = new JButton("Return Car");
-        buttonViewRented = new JButton("View Rented Cars");
 
+        sortButtonPanel.add(buttonSortByID);
+        sortButtonPanel.add(buttonSortByIDReversed);
+        sortButtonPanel.add(buttonSortByLargestCapacity);
+        sortButtonPanel.add(buttonSortByLeastCapacity);
 
-        buttonPanel.add(buttonAdd);
-        buttonPanel.add(buttonEdit);
-        buttonPanel.add(buttonDelete);
-        buttonPanel.add(buttonSortByID);
-        buttonPanel.add(buttonSortByIDReversed);
-        buttonPanel.add(buttonSortByLargestCapacity);
-        buttonPanel.add(buttonSortByLeastCapacity);
-        buttonPanel.add(buttonRent);
-        buttonPanel.add(buttonReturn);
-        buttonPanel.add(buttonViewRented);
+        functionalButtonPanel.add(buttonAdd);
+        functionalButtonPanel.add(buttonEdit);
+        functionalButtonPanel.add(buttonDelete);
+        functionalButtonPanel.add(buttonRent);
+        functionalButtonPanel.add(buttonReturn);
+        functionalButtonPanel.add(buttonViewRented);
+        functionalButtonPanel.add(buttonViewQueue);
 
-
+        mainPanel.setPreferredSize(new Dimension(900, 500));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        mainPanel.add(sortButtonPanel, BorderLayout.SOUTH);
+        mainPanel.add(functionalButtonPanel, BorderLayout.WEST);
+
 
         add(mainPanel);
 
@@ -140,6 +147,14 @@ public class FirstWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 ViewRentedCarsWindow viewWindow = new ViewRentedCarsWindow();
                 viewWindow.setVisible(true);
+            }
+        });
+
+        buttonViewQueue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewQueueWindow queueWindow = new ViewQueueWindow();
+                queueWindow.setVisible(true);
             }
         });
     }
