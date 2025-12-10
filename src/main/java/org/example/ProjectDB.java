@@ -8,7 +8,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+// encapsulation
 public class ProjectDB {
+    // encapsulation
     private static final JTable table = new JTable(new DefaultTableModel(
             new Object[]{"ID", "Model", "Brand", "Capacity", "Top KPH", "Transmission", "Status", "Return Date"}, 0)) {
         @Override
@@ -16,16 +18,18 @@ public class ProjectDB {
             return false;
         }
     };
+    // composition
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public static ArrayList<Car> carList;
     public static HashMap<Integer, RentalTransaction> activeRentals = new HashMap<>();
     public static LinkedList<PendingRental> pendingQueue = new LinkedList<>();
 
+    // static initializer block
     static {
-        // runns every hour to check and update expired rentals
         scheduler.scheduleAtFixedRate(ProjectDB::checkAndUpdateRentals, 0, 1, TimeUnit.HOURS);
     }
 
+    
     public static void loadCars() {
         DefaultTableModel tm = (DefaultTableModel) table.getModel();
         tm.setRowCount(0);
@@ -40,7 +44,6 @@ public class ProjectDB {
                 row[4] = e.getTopKPH();
                 row[5] = e.getTransmission();
 
-                // checks rental status
                 if (e.isRented()) {
                     row[6] = "RENTED";
                     RentalTransaction rental = activeRentals.get(e.getCarID());
@@ -54,14 +57,17 @@ public class ProjectDB {
         }
     }
 
+    
     public static JComponent getTable() {
         return table;
     }
 
+    
     public static void sortCarsBy(Comparator<Car> comparator) {
         carList.sort(comparator);
     }
 
+    
     public static void addExistingCars() {
         carList = new ArrayList<Car>(List.of(
                 new Car(1, "Adventure", "Mitsubishi", 7, 140, "Manual"),
@@ -76,6 +82,7 @@ public class ProjectDB {
         ));
     }
 
+    
     public static void addExistingRentals() {
         activeRentals = new HashMap<>();
         activeRentals.put(5, new RentalTransaction("Santos Vince", "09765492925", 5, "Bronco Badlands", 1));
@@ -90,7 +97,7 @@ public class ProjectDB {
         }
     }
 
-    // rent car function with a bit of validation
+    
     public static boolean rentCar(int carID, String renterName, String renterPhone, int duration) {
         Car car = findCarByID(carID);
         if (car == null || car.isRented()) {
@@ -104,7 +111,7 @@ public class ProjectDB {
         return true;
     }
 
-    // return car function
+    
     public static boolean returnCar(int carID) {
         RentalTransaction rental = activeRentals.get(carID);
         if (rental == null) {
@@ -118,19 +125,19 @@ public class ProjectDB {
         }
         activeRentals.remove(carID);
 
-        // checks the queue for the car
         processPendingQueue(carID);
         loadCars();
         return true;
     }
 
-    // adds to the queue if car is not available
+    
     public static void addToPendingQueue(String renterName, String renterPhone, int carID, int duration) {
         pendingQueue.add(new PendingRental(renterName, renterPhone, carID, duration));
     }
 
-    // processes the queue
+    
     private static void processPendingQueue(int carID) {
+        // iterator pattern
         Iterator<PendingRental> iterator = pendingQueue.iterator();
         while (iterator.hasNext()) {
             PendingRental pending = iterator.next();
@@ -146,7 +153,7 @@ public class ProjectDB {
         }
     }
 
-    // rental expiration checker
+    
     private static void checkAndUpdateRentals() {
         LocalDate today = LocalDate.now();
         List<Integer> toRemove = new ArrayList<>();
@@ -159,10 +166,11 @@ public class ProjectDB {
         }
 
         for (int carID : toRemove) {
-            returnCar(carID); // auto returns expired rentals
+            returnCar(carID);
         }
     }
 
+    
     public static Car findCarByID(int carID) {
         for (Car car : carList) {
             if (car.getCarID() == carID) {
@@ -172,7 +180,7 @@ public class ProjectDB {
         return null;
     }
 
-    //gets all active rentals from the arrayList
+    
     public static ArrayList<RentalTransaction> getAllActiveRentals() {
         return new ArrayList<>(activeRentals.values());
     }

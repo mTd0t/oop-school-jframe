@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Comparator;
 
+// inheritance
 public class FirstWindow extends JFrame {
+    // encapsulation
     private JButton buttonAdd;
     private JButton buttonEdit;
     private JButton buttonDelete;
@@ -22,22 +24,25 @@ public class FirstWindow extends JFrame {
     private JButton buttonViewRented;
     private JButton buttonViewQueue;
 
-
+    // constructor
     public FirstWindow() {
         initComponents();
         ProjectDB.loadCars();
     }
 
+    // encapsulation
     private void initComponents() {
         setTitle("Cars DashBoard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // composition
         mainPanel = new JPanel(new BorderLayout());
         String[] columnNames = {"CarsID", "Model", "Brand", "Capacity", "Top Speed", "isAutomatic"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         scrollPane = new JScrollPane(ProjectDB.getTable());
 
+        // composition
         JPanel sortButtonPanel = new JPanel();
         JPanel functionalButtonPanel = new JPanel(new GridLayout(0,1));
 
@@ -72,11 +77,11 @@ public class FirstWindow extends JFrame {
         mainPanel.add(sortButtonPanel, BorderLayout.SOUTH);
         mainPanel.add(functionalButtonPanel, BorderLayout.WEST);
 
-
         add(mainPanel);
 
         pack();
-        // buttons actions
+
+        // observer pattern
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,6 +89,7 @@ public class FirstWindow extends JFrame {
                 newWindow.setVisible(true);
             }
         });
+        // observer pattern
         buttonEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,6 +97,7 @@ public class FirstWindow extends JFrame {
                 newWindow.setVisible(true);
             }
         });
+        // observer pattern
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,6 +105,7 @@ public class FirstWindow extends JFrame {
                 delete.setVisible(true);
             }
         });
+        // observer pattern
         buttonSortByID.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,6 +113,7 @@ public class FirstWindow extends JFrame {
                 ProjectDB.loadCars();
             }
         });
+        // observer pattern
         buttonSortByIDReversed.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,6 +121,7 @@ public class FirstWindow extends JFrame {
                 ProjectDB.loadCars();
             }
         });
+        // observer pattern
         buttonSortByLargestCapacity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -119,6 +129,7 @@ public class FirstWindow extends JFrame {
                 ProjectDB.loadCars();
             }
         });
+        // observer pattern
         buttonSortByLeastCapacity.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,6 +137,7 @@ public class FirstWindow extends JFrame {
                 ProjectDB.loadCars();
             }
         });
+        // observer pattern
         buttonRent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,7 +145,7 @@ public class FirstWindow extends JFrame {
                 rentWindow.setVisible(true);
             }
         });
-
+        // observer pattern
         buttonReturn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,7 +153,7 @@ public class FirstWindow extends JFrame {
                 returnWindow.setVisible(true);
             }
         });
-
+        // observer pattern
         buttonViewRented.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,7 +161,7 @@ public class FirstWindow extends JFrame {
                 viewWindow.setVisible(true);
             }
         });
-
+        // observer pattern
         buttonViewQueue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

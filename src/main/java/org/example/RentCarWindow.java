@@ -7,21 +7,26 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+// inheritance
 public class RentCarWindow extends JFrame {
+    // encapsulation
     private JTextField txtCarID;
     private JTextField txtRenterName;
     private JTextField txtRenterPhone;
     private JTextField txtDuration;
 
+    // constructor
     public RentCarWindow() {
         initComponents();
     }
 
+    // encapsulation
     private void initComponents() {
         setTitle("Rent a Car");
         setSize(500, 400);
         setLocationRelativeTo(null);
 
+        // composition
         JPanel mainPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -41,9 +46,11 @@ public class RentCarWindow extends JFrame {
         txtDuration = new JTextField();
         mainPanel.add(txtDuration);
 
+        // composition
         JButton buttonRent = new JButton("Rent Car");
         JButton buttonCancel = new JButton("Cancel");
 
+        // composition
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(buttonRent);
         buttonPanel.add(buttonCancel);
@@ -51,6 +58,7 @@ public class RentCarWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
+        // observer pattern
         buttonRent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,6 +73,7 @@ public class RentCarWindow extends JFrame {
                         return;
                     }
 
+                    // composition
                     Car car = ProjectDB.findCarByID(carID);
                     if (car == null) {
                         JOptionPane.showMessageDialog(null, "Car ID not found!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -99,6 +108,7 @@ public class RentCarWindow extends JFrame {
             }
         });
 
+        // observer pattern
         buttonCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

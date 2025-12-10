@@ -5,19 +5,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// inheritance
 public class EditCars extends JFrame {
+    // constructor
     public EditCars() {
         initComponents();
     }
 
+    // encapsulation
     private void initComponents() {
         setTitle("Edit Car Details");
         setSize(900, 500);
         setLocationRelativeTo(null);
 
+        // composition
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        // composition
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton buttonEdit = new JButton("Edit Car");
         JButton buttonBack = new JButton("Cancel");
@@ -33,6 +38,7 @@ public class EditCars extends JFrame {
 
         pack();
 
+        // observer pattern
         buttonEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -41,7 +47,7 @@ public class EditCars extends JFrame {
                 ProjectDB.loadCars();
             }
         });
-
+        // observer pattern
         buttonBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,6 +56,7 @@ public class EditCars extends JFrame {
         });
     }
 
+    // encapsulation
     public void editCar(int carID) {
         for (int i = 0; i < ProjectDB.carList.size(); i++) {
             if (ProjectDB.carList.get(i).getCarID() == carID) {

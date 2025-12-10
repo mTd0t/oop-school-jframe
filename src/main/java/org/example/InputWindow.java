@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// inheritance
 public class InputWindow extends JFrame {
+    // encapsulation
     private final JTextField txtCarID;
     private final JTextField txtModel;
     private final JTextField txtBrand;
@@ -15,21 +17,22 @@ public class InputWindow extends JFrame {
     private final JRadioButton option2;
     private final ButtonGroup transmissionButtonGroup;
 
-
+    // composition
     private final JButton btnSave;
     private final JButton btnBack;
     private final int i = 0;
     private boolean isValid = true;
     private int oldCarID;
 
+    // constructor
     public InputWindow() {
         setTitle("Add New Car");
         setSize(900, 500);
         setLocationRelativeTo(null);
 
+        // composition
         JPanel mainPanel = new JPanel(new GridLayout(7, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
 
         mainPanel.add(new JLabel("Car ID: "));
         txtCarID = new JTextField();
@@ -51,13 +54,13 @@ public class InputWindow extends JFrame {
         txtTopKPH = new JTextField();
         mainPanel.add(txtTopKPH);
 
-        //radio options for auto or manualk
         option1 = new JRadioButton("Automatic");
         option2 = new JRadioButton("Manual");
         transmissionButtonGroup = new ButtonGroup();
         transmissionButtonGroup.add(option1);
         transmissionButtonGroup.add(option2);
 
+        // composition
         JPanel radioPanel = new JPanel(new FlowLayout());
         radioPanel.add(option1);
         radioPanel.add(option2);
@@ -65,11 +68,10 @@ public class InputWindow extends JFrame {
         mainPanel.add(new JLabel("Transmission:"));
         mainPanel.add(radioPanel);
 
-        //end of radio options
-
         btnSave = new JButton("Save Car");
         btnBack = new JButton("Cancel");
 
+        // composition
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(btnSave);
         buttonPanel.add(btnBack);
@@ -79,6 +81,7 @@ public class InputWindow extends JFrame {
 
         pack();
 
+        // observer pattern
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -88,6 +91,7 @@ public class InputWindow extends JFrame {
             }
         });
 
+        // observer pattern
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -96,12 +100,13 @@ public class InputWindow extends JFrame {
         });
     }
 
-    //constructor Chaining
+    // constructor overloading
     public InputWindow(int carID, String model, String brand, String capacity, String topKPH, String transmission) {
         setTitle("Edit Car");
         setSize(900, 500);
         setLocationRelativeTo(null);
 
+        // composition
         JPanel mainPanel = new JPanel(new GridLayout(7, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -128,7 +133,6 @@ public class InputWindow extends JFrame {
         txtTopKPH = new JTextField(topKPH);
         mainPanel.add(txtTopKPH);
 
-        // radio options
         option1 = new JRadioButton("Automatic");
         option2 = new JRadioButton("Manual");
 
@@ -142,6 +146,7 @@ public class InputWindow extends JFrame {
         transmissionButtonGroup.add(option1);
         transmissionButtonGroup.add(option2);
 
+        // composition
         JPanel radioPanel = new JPanel(new FlowLayout());
         radioPanel.add(option1);
         radioPanel.add(option2);
@@ -152,6 +157,7 @@ public class InputWindow extends JFrame {
         btnSave = new JButton("Save Edited Car");
         btnBack = new JButton("Cancel");
 
+        // composition
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(btnSave);
         buttonPanel.add(btnBack);
@@ -161,6 +167,7 @@ public class InputWindow extends JFrame {
 
         pack();
 
+        // observer pattern
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -170,6 +177,7 @@ public class InputWindow extends JFrame {
             }
         });
 
+        // observer pattern
         btnBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -178,6 +186,7 @@ public class InputWindow extends JFrame {
         });
     }
 
+    // encapsulation
     private void saveEdit() {
         try {
             isValid = true;
@@ -188,25 +197,20 @@ public class InputWindow extends JFrame {
             int newTopKPH = Integer.parseInt(txtTopKPH.getText());
             String newTransmission = getSelectedTransmission();
 
-
-            // checks if model and brand is filled in
             if (newModel.isEmpty() || newBrand.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill all fields", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
-            //checks if the capacity is valid
             if (newCapacity < 0 || newCapacity > 300) {
                 JOptionPane.showMessageDialog(this, "Enter valid capacity \n 0-300", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
-            //checks if user selected a transmission type
             if (!option1.isSelected() && !option2.isSelected()) {
                 isValid = false;
             }
 
-            // find index of car
             int editIndex = -1;
             for (int i = 0; i < ProjectDB.carList.size(); i++) {
                 if (ProjectDB.carList.get(i).getCarID() == oldCarID) {
@@ -215,7 +219,6 @@ public class InputWindow extends JFrame {
                 }
             }
 
-            // check for duplicate id
             if (newCarID != oldCarID) {
                 for (Car car : ProjectDB.carList) {
                     if (car.getCarID() == newCarID) {
@@ -227,12 +230,12 @@ public class InputWindow extends JFrame {
             }
             if (isValid && editIndex != -1) {
                 ProjectDB.carList.remove(editIndex);
+                // composition
                 Car newCar = new Car(newCarID, newModel, newBrand, newCapacity, newTopKPH, newTransmission);
                 ProjectDB.carList.add(editIndex, newCar);
 
                 JOptionPane.showMessageDialog(this, "Car edited successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // clears everything on the form
                 clearForm();
 
                 System.out.println("Total cars: " + ProjectDB.carList.size());
@@ -243,6 +246,7 @@ public class InputWindow extends JFrame {
         }
     }
 
+    // encapsulation
     private void saveCar() {
         try {
             isValid = true;
@@ -253,26 +257,21 @@ public class InputWindow extends JFrame {
             int topKPH = Integer.parseInt(txtTopKPH.getText());
             String transmission = getSelectedTransmission();
 
-
-            // checks if model and brand is filled in
             if (model.isEmpty() || brand.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill all fields", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
-            //checks if the capacity is valid
             if (capacity < 0 || capacity > 300) {
                 JOptionPane.showMessageDialog(this, "Enter valid capacity \n 0-300", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
-            //checks if user selected a transmission type
             if (!option1.isSelected() && !option2.isSelected()) {
                 JOptionPane.showMessageDialog(this, "Select a Transmission type!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 isValid = false;
             }
 
-            //checks if the carID is already in use
             for (int i = 0; i < ProjectDB.carList.size(); i++) {
                 if (carID == ProjectDB.carList.get(i).getCarID()) {
                     JOptionPane.showMessageDialog(this, "Car ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -280,13 +279,12 @@ public class InputWindow extends JFrame {
                 }
             }
             if (isValid) {
-
+                // composition
                 Car newCar = new Car(carID, model, brand, capacity, topKPH, transmission);
                 ProjectDB.carList.add(newCar);
 
                 JOptionPane.showMessageDialog(this, "Car added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // clear entire form
                 clearForm();
 
                 System.out.println("Total cars: " + ProjectDB.carList.size());
@@ -297,6 +295,7 @@ public class InputWindow extends JFrame {
         }
     }
 
+    // encapsulation
     private String getSelectedTransmission() {
         if (option1.isSelected()) {
             return "Automatic";
@@ -305,6 +304,7 @@ public class InputWindow extends JFrame {
         }
     }
 
+    // encapsulation
     private void clearForm() {
         txtCarID.setText("");
         txtModel.setText("");
